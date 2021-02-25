@@ -1,22 +1,59 @@
-# Define UI for application that draws a histogram
-ui <- fluidPage(
-	
-	# Application title
-	titlePanel("Old Faithful Geyser Data"),
-	
-	# Sidebar with a slider input for number of bins 
-	sidebarLayout(
-		sidebarPanel(
-			sliderInput("bins",
-									"Number of bins:",
-									min = 1,
-									max = 50,
-									value = 30)
-		),
-		
-		# Show a plot of the generated distribution
-		mainPanel(
-			plotOutput("distPlot")
-		)
-	)
+# ui
+
+library(shiny)
+
+# Encabezado --------------------------------------------------------------
+
+header <- dashboardHeader(
+  title = "Módulos"
+)
+
+# Sidebar -----------------------------------------------------------------
+
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    menuItem("Nube de palabras", tabName = "nube", icon = icon("dashboard")),
+    menuItem("Gráfico vuelos", tabName = "texto", icon = icon("align-left"))
+  )
+)
+
+# Cuerpo ------------------------------------------------------------------
+body <- dashboardBody(
+  tabItems(
+    tabItem(
+      tabName = "nube",
+      fluidRow(
+          nubeUI("nube_palabras")
+      ),
+      
+      fluidRow(
+        box(
+          deslizadorUI("deslizador_nuevo")
+          # deslizadorUI("deslizador_segudno")
+        )
+      )
+    ),
+    
+    tabItem(
+      tabName = "texto",
+      fluidRow(
+        column(
+          width = 4,
+          seleccionadorUI("carrier_seleccionador")
+        ),
+        column(
+          width = 8,
+          graficoUI("grafico_aviones")
+        )
+      )
+    )
+  )
+)
+
+## App completo ----------------------------------------------------------------
+dashboardPage(
+  skin = "black",
+  header,
+  sidebar,
+  body
 )

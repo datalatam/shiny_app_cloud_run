@@ -1,24 +1,36 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-library(shiny)
+# server
 
-# Define server logic required to draw a histogram
-server <- function(input, output) {
-	
-	output$distPlot <- renderPlot({
-		# generate bins based on input$bins from ui.R
-		x    <- faithful[, 2]
-		bins <- seq(min(x), max(x), length.out = input$bins + 1)
-		
-		# draw the histogram with the specified number of bins
-		hist(x, breaks = bins, col = 'darkgray', border = 'white')
-	})
+server <- function(input, output, session) {
+  
+  # Llamados a modulos simple
+  callModule(module = deslizador, id =  "deslizador_segundo")
+  
+  # Llamar módulo en objeto para traer selecciones
+  carriers <- callModule(module = seleccionador, id = "carrier_seleccionador")
+  
+  observeEvent(
+    carriers$carrier_input(), {
+      callModule(module = grafico,
+                 id = "grafico_aviones",
+                 aerolinea = carriers$carrier_input())
+    }
+  )
+  
+  # Modulo en un objeto
+  deslizadores <- callModule(module = deslizador, id = "deslizador_nuevo")
+  
+  # Deslizadores lo tenemos como una lista con dos funciones
+  
+  observeEvent(
+    (deslizadores$frec_input() | deslizadores$max_input()), {
+      
+      callModule(module = nube,
+                 id = "nube_palabras",
+                 frecuencia = deslizadores$frec_input(),
+                 maximo = deslizadores$max_input())  
+    }
+
+  )
+  
+  
 }
-
-

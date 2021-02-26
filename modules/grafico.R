@@ -27,7 +27,8 @@ grafico <- function(input, output, session, aerolinea) {
   output$vuelo <- renderPlot({
     ggplot(data = delay, mapping = aes(x = dist, y = delay)) + 
       geom_point(aes(size = conteo, alpha = 0.3)) +
-      geom_smooth(se = FALSE)
+      geom_smooth(se = FALSE) +
+      theme_bw(base_size = 16)
     
   })
   

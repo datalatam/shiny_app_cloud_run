@@ -11,11 +11,10 @@ RUN apt-get update && apt-get install \
 
 RUN mkdir -p /var/lib/shiny-server/bookmarks/shiny
 
-# Install remotes to manage R package versions
+# Instalar paquete remotes para controlar las versiones de otros paquetes
 RUN R -e 'install.packages("remotes", repos="http://cran.rstudio.com")'
 
-# Download and install library
-
+# Descargar e instalar paquetes de R necesarios para el app
 RUN R -e 'remotes::install_version(package = "shiny", version = "1.6.0", dependencies = TRUE)'
 RUN R -e 'remotes::install_version(package = "tm", version = "0.7")'
 RUN R -e 'remotes::install_version(package = "SnowballC", version = "0.7.0", dependencies = TRUE)'
@@ -26,13 +25,13 @@ RUN R -e 'remotes::install_version(package = "ggplot2", version = "3.3.3", depen
 RUN R -e 'remotes::install_version(package = "nycflights13", version = "1.0.1", dependencies = TRUE)'
 RUN R -e 'remotes::install_version(package = "dplyr", version = "1.0.4", dependencies = TRUE)'
 
-# copy the app to the image COPY shinyapps /srv/shiny-server/
+# Copiar el app a la imagen de shinyapps /srv/shiny-server/
 COPY . /srv/shiny-server/
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
 RUN chown shiny:shiny /srv/shiny-server/
 
-# Fix permissions in case this was deployed from Windows
+# Configurar permisos en caso de que sea desarrollado desde windows
 RUN chmod -R 755 /srv/shiny-server/
 
 EXPOSE 8080

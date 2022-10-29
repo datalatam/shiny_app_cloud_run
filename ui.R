@@ -5,7 +5,7 @@ library(shiny)
 # Encabezado --------------------------------------------------------------
 
 header <- dashboardHeader(
-  title = "Módulos"
+  title = "Módulos cambio"
 )
 
 # Sidebar -----------------------------------------------------------------

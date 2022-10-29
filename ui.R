@@ -12,7 +12,7 @@ header <- dashboardHeader(
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
-    menuItem("Nube de palabras", tabName = "nube", icon = icon("dashboard")),
+    menuItem("Nube de palabras", tabName = "nube", icon = icon("gauge")),
     menuItem("Gráfico vuelos", tabName = "texto", icon = icon("align-left"))
   )
 )
